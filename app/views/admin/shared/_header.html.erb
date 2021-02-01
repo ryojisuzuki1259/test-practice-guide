@@ -2,7 +2,7 @@
   <apan class="logo-mark">BAUKIS2</span>
   <%= 
     if current_administrator
-      link_to "ログアウト", :administrator_session, method: :delete
+      link_to "ログアウト", :admin_session, method: :delete
     else
       link_to "ログイン", :staff_login
     end
