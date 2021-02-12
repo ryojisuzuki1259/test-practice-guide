@@ -15,9 +15,14 @@ class Admin::SessionsController < Admin::Base
         Administrator.find_by("LOWER(email) = ?", @form.email.downcase)
     end
     if Admin::Authenticator.new(administrator).authenticate(@form.password)
-      session[:administrator_id] = administrator.id
-      flash.notice = "ログインしました。"
-      redirect_to :admin_root
+      if administrator.suspended?
+        flash.now.alert = "アカウントが停止されています。"
+        render action: "new"
+      else
+        session[:administrator_id] = administrator.id
+        flash.notice = "ログインしました。"
+        redirect_to :admin_root
+      end
     else
       flash.now.alert = "メールアドレスまたはパスワードが正しくありません"
       render action: "new"
