@@ -23,8 +23,8 @@ describe "管理者による職員管理" do
 
     example "suspendedフラグをセットする" do
       params_hash.merge!(suspended: true)
-      patch admin_staff_members_url(staff_member),
-        patams: { staff_member: params_hash }
+      patch admin_staff_member_url(staff_member),
+        params: { staff_member: params_hash }
       staff_member.reload
       expect(staff_member).to be_suspended
     end
@@ -33,7 +33,7 @@ describe "管理者による職員管理" do
       params_hash.delete(:password)
       params_hash.merge!(hashed_password: "x")
       expect {
-        patch admin_staff_members_url(staff_member),
+        patch admin_staff_member_url(staff_member),
           params: { staff_member: params_hash } 
       }.not_to change { staff_member.hashed_password.to_s }
     end
