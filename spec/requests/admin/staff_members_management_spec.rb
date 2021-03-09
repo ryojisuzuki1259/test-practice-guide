@@ -17,6 +17,19 @@ describe "管理者による職員管理" do
       }
   end
 
+  describe "一覧" do
+    example "成功" do
+      get admin_staff_members_url
+      expect(response.status).to eq(200)
+    end
+
+    example "停止フラグがセットされたら強制的にログアウト" do
+      administrator.update_column(:suspended, true)
+      get admin_staff_members_url
+      expect(response.status).to redirect_to(admin_root_url)
+    end
+  end
+
   describe "新規登録" do
     let(:params_hash) { attributes_for(:staff_member) }
 
